@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const adminSchmea=new mongoose.connect({
+const adminSchmea= new  mongoose.Schema({
     adminName:String,
     adminEmail:{
         type:String,
