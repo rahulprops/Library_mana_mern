@@ -39,14 +39,14 @@ export const adminCreate= async(req,res)=>{
               })
               if(adminCreate){
                  const admin= await adminCreate.save()
-                 if(admin){
-                     const userId= await adminModal.findOne({adminEmail:adminEmail})
-                     const token= jwt.sign({token:userId},process.env.SECURTY_KEY,{expiresIn:"4d"})
+            
+                    //  const userId= await adminModal.findOne({adminEmail:adminEmail})
+                    // console.log(admin)
+                     const token= jwt.sign({token:adminCreate._id},process.env.SECURTY_KEY,{expiresIn:"4d"})
                     return handleError(res,201,"admin create sucessful",admin,token)
-                 }
-                 else{
-                    return handleError(res,400,"not create admin")
-                 }
+              }
+              else{
+                return handleError (res,"user not create ")
               }
 
         }catch(err){
