@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors("*"))
 app.use("/api/v1",adminRouter)
-app.use("/api/:id/v1",faculityRouter)
+app.use("/api/v1",faculityRouter)
 app.listen(port,()=>{
     console.log(`server on runing http://localhost:/${port}`)
     db()
