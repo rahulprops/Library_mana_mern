@@ -15,11 +15,13 @@ import handleError from '../middlerare/error_logs/handleError.js'
     }
  })
 export const faculityMulter=multer({storage:facStore})
+//! create faculity controller
+
 export const createFaculity= async (req,res)=>{
     const {id}=req.params;
     const {faculityName ,faculityEmail,faculityPhone, faculityPassword}=req.body;
-    
+    console.log(faculityName)
     try{}catch(err){
-        return handleError(res,"server chh")
+        return handleError(res, 500, "server err")
     }
 }
