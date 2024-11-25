@@ -12,8 +12,8 @@ const faculitySchema= new mongoose.Schema({
         type:Number
     },
     AdminId:{
-        // type:mongoose.sc,
-        ref:mongoose.Schema.ObjectId,
+        type:mongoose.Schema.ObjectId,
+        ref:"admindata",
         required:true
     }
 })
