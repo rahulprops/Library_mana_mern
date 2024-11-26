@@ -106,3 +106,27 @@ export const findFaculity= async (req,res)=>{
     return handleError(res,500,`server error ${err}`)
   }
  }
+ //! delete faculity by admin and faculity id
+ export const deleteFaculity= async (req,res)=>{
+  const {AdminId,fId}=req.params;
+  if(!mongoose.Types.ObjectId.isValid(AdminId)){
+    return handleError(res,400,"admin key not valid")
+  }
+  if(!mongoose.Types.ObjectId.isValid(fId)){
+    return handleError(res,400,"faculity id not valid")
+  }
+  try{
+    const checkadmin= await adminModal.findById(AdminId)
+    if(!checkadmin){
+      return handleError(res,400,"admin not found")
+    }
+    const deleteFaculity=await faculityModal.findByIdAndDelete(fId)
+    if(deleteFaculity){
+      return handleError(res,200,"delete sucessful")
+    }else{
+      return handleError(res,400,"delte faild ")
+    }
+  }catch(err){
+    return handleError(res,500,`server error ${err}`)
+  }
+ }
