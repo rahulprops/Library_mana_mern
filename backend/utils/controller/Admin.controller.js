@@ -83,3 +83,26 @@ export const findFaculity= async (req,res)=>{
     return handleError(res,500 `server error ${err}`)
   }
 }
+ //! find all faculity by admin id 
+ export const findAllFaculity=async (req,res)=>{
+  const {AdminId}=req.params;
+  console.log(AdminId)
+  console.log("heloo")
+  if(!mongoose.Types.ObjectId.isValid(AdminId)){
+    return handleError(res,400,"please enter valid key")
+  }
+  try{
+      const checkAdmin= await adminModal.findById(AdminId)
+      if(!checkAdmin){
+        return handleError(res,400,"admin not found this id")
+      }
+      const allFaculity=await faculityModal.find()
+      if(allFaculity){
+        return handleError(res,200,"sucess ",allFaculity)
+      }else{
+        return handleError(res,400,"not found faculity")
+      }
+  }catch(err){
+    return handleError(res,500,`server error ${err}`)
+  }
+ }
