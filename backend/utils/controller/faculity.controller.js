@@ -44,7 +44,7 @@ export const createFaculity = async (req, res) => {
     if (!checkAdmin) {
       return handleError(res, 400, "please enter currect key");
     }
-    console.log("20");
+    // console.log("20");
     const faculityfindEmail = await faculityModal.findOne({
       faculityEmail: faculityEmail,
     });
@@ -69,4 +69,31 @@ export const createFaculity = async (req, res) => {
   } catch (err) {
     return handleError(res, 500, `server error ${err}`);
   }
+};
+
+export const loginFaculity = async (req, res) => {
+    const { faculityEmail, FaculityPassword } = req.body;
+
+    if (!faculityEmail || !FaculityPassword) {
+        return handleError(res, 400, "All fields are required");
+    }
+
+    try {
+        // Check if email exists
+        const checkEmail = await faculityModal.findOne({ faculityEmail: faculityEmail });
+        if (!checkEmail) {
+            return handleError(res, 400, "Email does not exist"); // Add return here
+        }
+
+        // Compare passwords
+        const comparePass = await bcrypt.compare(FaculityPassword, checkEmail.faculityPassword);
+        if (comparePass) {
+            return handleError(res, 200, "Login successful", checkEmail); // Add return here
+        } else {
+            return handleError(res, 400, "Invalid password"); // Add return here
+        }
+    } catch (err) {
+        // Handle server errors
+        return handleError(res, 500, `Server error: ${err.message}`); // Add return here
+    }
 };
