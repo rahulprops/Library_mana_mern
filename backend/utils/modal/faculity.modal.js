@@ -11,11 +11,14 @@ const faculitySchema= new mongoose.Schema({
     faculityPhone:{
         type:Number
     },
+    faculityPhoto:{
+        type:String,
+    },
     AdminId:{
         type:mongoose.Schema.ObjectId,
         ref:"admindata",
         required:true
     }
-})
+},{timestamps:true})
 const faculityModal= mongoose.model("faculity",faculitySchema)
 export default faculityModal;
