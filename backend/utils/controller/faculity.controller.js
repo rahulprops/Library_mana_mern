@@ -70,7 +70,7 @@ export const createFaculity = async (req, res) => {
     return handleError(res, 500, `server error ${err}`);
   }
 };
-
+// ! login faculity 
 export const loginFaculity = async (req, res) => {
     const { faculityEmail, FaculityPassword } = req.body;
 

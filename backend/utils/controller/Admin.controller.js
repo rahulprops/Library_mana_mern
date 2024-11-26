@@ -4,6 +4,8 @@ import handleError from "../middlerare/error_logs/handleError.js";
 import adminModal from "../modal/admin.modal.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import faculityModal from "../modal/faculity.modal.js";
 const adminPath = path.join("public/admin/");
 const store = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -55,3 +57,29 @@ export const adminCreate = async (req, res) => {
     return handleError(res, 400, "all feilds required");
   }
 };
+
+//! find by faculity fid and aid 
+export const findFaculity= async (req,res)=>{
+  const {AdminId,fId}=req.params;
+  if(!mongoose.Types.ObjectId.isValid(AdminId)){
+    return handleError(res,400,"admin key not valid")
+  }
+  if(!mongoose.Types.ObjectId.isValid(fId)){
+    return handleError(res,400,"not faculityid id valid")
+  }
+  try{
+     const checkAdmin=await adminModal.findById(AdminId)
+     if(!checkAdmin){
+      return handleError(res,400,"admin not found")
+     }
+  //  console.log(checkAdmin)
+  const findFaculity= await faculityModal.findById(fId).populate("AdminId")
+  if(findFaculity){
+          return handleError(res,200,"find sucessful",findFaculity)
+  }else{
+    return handleError(res,400,"faculity not found this id")
+  }
+  }catch(err){
+    return handleError(res,500 `server error ${err}`)
+  }
+}
