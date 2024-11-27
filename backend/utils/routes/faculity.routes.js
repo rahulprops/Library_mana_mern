@@ -1,6 +1,7 @@
 import express from 'express'
-import { createFaculity, faculityMulter, loginFaculity } from '../controller/faculity.controller.js';
+import { createFaculity, faculityMulter, loginFaculity, updateFaculity } from '../controller/faculity.controller.js';
 const faculityRouter=express.Router();
  faculityRouter.post("/:Id/create-faculty",faculityMulter.single("faculityPhoto"), createFaculity)
  faculityRouter.post("/login",loginFaculity)
+ faculityRouter.put("/admin/:AdminId/faculity-update",updateFaculity)
   export default faculityRouter;

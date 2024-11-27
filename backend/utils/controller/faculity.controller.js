@@ -97,3 +97,38 @@ export const loginFaculity = async (req, res) => {
         return handleError(res, 500, `Server error: ${err.message}`); // Add return here
     }
 };
+
+//! update faculity 
+export const updateFaculity= async (req,res)=>{
+    const {AdminId}=req.params;
+    const {faculityName,faculityEmail,faculityPhone}= req.body;
+    // console.log(faculityPhone)
+    if(!mongoose.Types.ObjectId.isValid(AdminId)){
+        return handleError(res,400,"admin key not valid")
+    }
+    if (!faculityName || !faculityEmail || !faculityPhone) {
+        return handleError(res, 400, "All fields are required");
+    }
+    try{
+        const checkAdmin=  await adminModal.findById(AdminId)
+        if(!checkAdmin){
+            return handleError(res,400,"admin not found")
+        }
+        const updatedFaculity = await faculityModal.findOneAndUpdate(
+            { faculityEmail: faculityEmail }, // Filter condition
+            {
+                faculityName: faculityName,
+                faculityPhone: faculityPhone,
+            },
+            { new: true } // Return the updated document
+        );
+        if(updatedFaculity){
+            return handleError(res,200,"update sucessful",updatedFaculity)
+        }else{
+            return handleError(res,400,"not found update faild")
+        }
+        
+    }catch(err){
+        return handleError(res,400,`server error ${err}`)
+    }
+}

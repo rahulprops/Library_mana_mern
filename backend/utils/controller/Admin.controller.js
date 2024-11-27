@@ -141,7 +141,7 @@ export const findFaculity= async (req,res)=>{
     if(!checkAdmin){
       return handleError(res,400,"admin not found ")
     }
-    const deletall= await faculityModal.deleteMany()
+    const deletall= await faculityModal.deleteMany() 
     if(deletall){
       return handleError(res,200,"delete all sucessful")
     }else{
