@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import faculityModal from "../modal/faculity.modal.js";
+import courseModal from "../modal/course.modal.js";
 const adminPath = path.join("public/admin/");
 const store = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -122,7 +123,9 @@ export const findFaculity= async (req,res)=>{
     }
     const deleteFaculity=await faculityModal.findByIdAndDelete(fId)
     if(deleteFaculity){
-      return handleError(res,200,"delete sucessful")
+      const deleteAssociatedCourse= await courseModal.deleteMany({faculityId:fId})
+      if(deleteAssociatedCourse)
+      return handleError(res,200,"delete sucessful faculity and associated course deleted",deleteAssociatedCourse)
     }else{
       return handleError(res,400,"delte faild ")
     }
