@@ -6,6 +6,7 @@ import handleError from "../middlerare/error_logs/handleError.js";
 import path from "path";
 import adminModal from "../modal/admin.modal.js";
 import mongoose from "mongoose";
+import courseModal from "../modal/course.modal.js";
 
 const facuDir = path.join("public/faculity/");
 const facStore = multer.diskStorage({
@@ -132,3 +133,32 @@ export const updateFaculity= async (req,res)=>{
         return handleError(res,400,`server error ${err}`)
     }
 }
+//! get couse by fuclity id
+export const getCourse= async (req,res)=>{
+  const {fid}=req.params;
+  // console.log(fid)
+  if(!fid){
+    return handleError(res,400,"faculity not found")
+  }
+  try{
+    if(!mongoose.Types.ObjectId.isValid(fid)){
+      return handleError(res,400,"faculity key not valid")
+    }
+    const isvalidFaculityId= await faculityModal.findById(fid)
+    if(!isvalidFaculityId){
+      return handleError(res,400,"this id not found faculity")
+    }
+    const getcourse=await courseModal.find({faculityId:fid})
+    if(getcourse){
+      return handleError(res,200,"get course sucessful",getcourse)
+    }else{
+      return handleError(res,400,"not get course")
+    }
+    
+  }catch(err){
+    return handleError(res,500,"server error")
+  }
+}
+//! delete associatecorsecourse delete add logic faculity delete admin after delete faculity 
+//! all delete course by admin id admin controller me deletemany()
+// get all courses by admon id find() 
