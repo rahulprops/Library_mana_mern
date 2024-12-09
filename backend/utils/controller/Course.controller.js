@@ -54,7 +54,7 @@ if(courseTitle && courseContent && couresPdf){
         }else{
             return handleError(res,400," can not store course")
         }
-      console.log("hello course");
+    //   console.log("hello course");
     } catch (err) {
       return handleError(res, 500, `server error ${err}`);
     }

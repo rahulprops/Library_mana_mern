@@ -154,3 +154,23 @@ export const findFaculity= async (req,res)=>{
     return handleError(res,500,`server error ${err}`)
   } 
  }
+ //! get all course by admin id
+ export const getAllcourseByAdminId=async (req,res)=>{
+  const {AdminId}=req.params;
+  // console.log(AdminId)
+  if(!AdminId){
+    return handleError(res,400,"admin id not found")
+  }
+  try{
+    if(!mongoose.Types.ObjectId.isValid(AdminId)){
+      return handleError(res,400,"admin id not valid")
+    }
+    const getAllCourse= await courseModal.find()
+    if(getAllCourse){
+      return handleError(res,200," get sucessful",getAllCourse)
+    }
+    console.log("get course")
+  }catch(err){
+    return handleError(res,500,`server error ${err}`)
+  }
+ }
