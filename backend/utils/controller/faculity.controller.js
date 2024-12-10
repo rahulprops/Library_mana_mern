@@ -71,6 +71,10 @@ export const createFaculity = async (req, res) => {
     return handleError(res, 500, `server error ${err}`);
   }
 };
+  
+function AccessToken(userid){
+  return jwt.sign({userid:userid},"secret",{expiresIn:"2m"})
+}
 // ! login faculity 
 export const loginFaculity = async (req, res) => {
     const { faculityEmail, FaculityPassword } = req.body;
@@ -92,7 +96,7 @@ export const loginFaculity = async (req, res) => {
             if(checkEmail){
               const userid=checkEmail._id;
                 // console.log(userid)
-                const token= jwt.sign({userid:userid},"secret",{expiresIn:"2m"})
+                const token= AccessToken(userid)
                 res.cookie("accessToken",token,{httpOnly:true,maxAge:2*60*1000})
               return handleError(res, 200, "Login successful", checkEmail,token); // Add return here
             }else{
