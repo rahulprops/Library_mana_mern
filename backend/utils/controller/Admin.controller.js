@@ -87,8 +87,8 @@ export const findFaculity= async (req,res)=>{
  //! find all faculity by admin id 
  export const findAllFaculity=async (req,res)=>{
   const {AdminId}=req.params;
-  console.log(AdminId)
-  console.log("heloo")
+  // console.log(AdminId)
+  // console.log("heloo")
   if(!mongoose.Types.ObjectId.isValid(AdminId)){
     return handleError(res,400,"please enter valid key")
   }
