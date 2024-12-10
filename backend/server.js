@@ -4,14 +4,17 @@ import db from './utils/database/db.js'
 import bodyParser from 'body-parser'
 import adminRouter from './utils/routes/admin.routes.js'
 import cors from 'cors'
+
 import faculityRouter from './utils/routes/faculity.routes.js'
 import courseRouter from './utils/routes/course.routers.js'
 import studentRouter from './utils/routes/student.routes.js'
+import cookieParser from 'cookie-parser'
 const app=express()
 const port =process.env.PORT || 3000
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json()) 
 app.use(cors("*"))
+app.use(cookieParser())
 app.use("/api/v1",adminRouter)
 app.use("/api/v1",faculityRouter)
 app.use("/api/v1",courseRouter)

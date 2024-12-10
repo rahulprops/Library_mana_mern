@@ -89,7 +89,16 @@ export const loginFaculity = async (req, res) => {
         // Compare passwords
         const comparePass = await bcrypt.compare(FaculityPassword, checkEmail.faculityPassword);
         if (comparePass) {
-            return handleError(res, 200, "Login successful", checkEmail); // Add return here
+            if(checkEmail){
+              const userid=checkEmail._id;
+                // console.log(userid)
+                const token= jwt.sign({userid:userid},"secret",{expiresIn:"2m"})
+                res.cookie("accessToken",token,{httpOnly:true,maxAge:2*60*1000})
+              return handleError(res, 200, "Login successful", checkEmail,token); // Add return here
+            }else{
+              return handleError(res,400,"check mail not found")
+            }
+           
         } else {
             return handleError(res, 400, "Invalid password"); // Add return here
         }
