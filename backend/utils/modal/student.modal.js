@@ -7,7 +7,14 @@ const studentSchema= new Schema({
         required:true,
         unique:true,
      },
-     StudentPassword:String,
+     StudentPassword:{
+        type:String,
+        select:false,
+     },
+     StudentPhoto:{
+      type:String,
+      required:true,
+     },
      AdminId:{
         type:mongoose.Schema.ObjectId,
         ref:"admindata",
