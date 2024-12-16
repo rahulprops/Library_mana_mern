@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 function protectRoute(req,res,next){
  const token=req.cookies.accessToken;
- console.log(token)
+//  console.log(token)
  if(!token){
     return handleError(res,400,"data key not found")
  

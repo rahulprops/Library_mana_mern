@@ -172,6 +172,48 @@ export const getCourse= async (req,res)=>{
     return handleError(res,500,"server error")
   }
 }
+
+//! reset password faculity
+export const resetPaasword= async (req,res)=>{
+  const {fid}=req.params;
+  const {faculityNewPassword,faculityoldPassword}=req.body
+  if(!mongoose.Types.ObjectId.isValid(fid)){
+    return handleError(res,400,"valid faculity id")
+  }
+  if(!faculityNewPassword || !faculityoldPassword){
+    return handleError(res,400,"all feilds required")
+  }
+  try{
+       const isvalidFaculity= await faculityModal.findById(fid) 
+       if(!isvalidFaculity){
+        return handleError(res,400,"faculity not found")
+       }
+      
+      // compare password
+      const compare = await bcrypt.compare(faculityoldPassword,isvalidFaculity.faculityPassword)
+      if(!compare){
+        return handleError(res,400,"password not match")
+      }
+      // new password compare
+      const newpasscompare= await bcrypt.compare(faculityNewPassword,isvalidFaculity.faculityPassword)
+       if(newpasscompare){
+        return handleError(res,400,"given password match enter new password")
+       }
+       // hash new password
+       const newhaspass= await bcrypt.hash(faculityNewPassword,12)
+       const updatepassword= await faculityModal.findByIdAndUpdate(fid,{faculityPassword:newhaspass}) 
+            
+            const saveResetPassword= await updatepassword.save()
+       if(saveResetPassword){
+        return handleError(res,200,"password changed sucessful")
+       }
+       else{
+        return handleError(res,400," faild updatenew password")
+       }
+  }catch(err){
+    return handleError(res,500,`server error ${err}`)
+  }
+}
 //! delete associatecorsecourse delete add logic faculity delete admin after delete faculity 
 //! all delete course by admin id admin controller me deletemany()
 // get all courses by admon id find() 
